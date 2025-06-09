@@ -1,0 +1,31 @@
+button {
+    background-color: #9a3def;
+    border: none;
+    border-radius: 30px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    font-size: 23px;
+    font-weight: 300;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 200px;
+}
+
+/* Hover-effect */
+button:hover {
+    background-color: #6060e0;
+    border-radius: 30px;
+    box-shadow: 10px 6px 12px rgba(0, 0, 10, 0.5);
+    font-size: 25px;
+    font-weight: 900;
+    transform: scale(1.03);
+    width: 300px;
+}
+
+/* Disabled knop */
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
