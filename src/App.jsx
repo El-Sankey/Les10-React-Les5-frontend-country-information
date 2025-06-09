@@ -2,11 +2,15 @@ import './App.css';
 import { useState } from "react";
 import axios from "axios";
 import Button from "./components/Button.jsx";
+import worldMap from './assets/world_map.png';
+
 
 function App() {
 	const [countries, setCountries] = useState([]);
 	const [loaded, setLoaded] = useState(false);
 	const [error, setError] = useState(null);
+	const [countryName, setCountryName] = useState("");
+	const [country, setCountry] = useState([]);
 
 	async function fetchData() {
 
@@ -30,11 +34,22 @@ function App() {
 		}
 	}
 
+	async function fetchOneCountry() {
+		try {
+			const response = await axios.get('https://restcountries.com/v3.1/all');
+			const sorted = response.data.sort((a, b) => a.population - b.population);
+			setCountry(sorted);
+			console.log(sorted[0].name.common);
+		} catch (err) {
+			console.error('Fout bij ophalen landen:', err);
+		}
+	}
+
 	return (
 		<>
 			<section>
 				<header>
-					<img src="src/assets/world_map.png" alt="wereldkaart" />
+					<img src={worldMap} alt="wereldkaart" />
 					<h1 className="h1">World Regions</h1>
 					{!loaded && (
 						<Button
@@ -44,7 +59,19 @@ function App() {
 							action={fetchData}
 						/>
 					)}
-					{error && <p style={{ color: "red" }}>{error}</p>}
+					{error && <p style={{color: "red"}}>{error}</p>}
+					<input
+						type="text"
+						value={countryName}
+						onChange={(e) => {
+						return setCountryName(e.target.value);
+					}} placeholder="Zoek land..." onKeyDown={(e) => e.key === 'Enter' && fetchOneCountry()}
+					/>
+					<Button
+						buttonType="button"
+						name="getCountries"
+						action={fetchOneCountry}
+						label="Zoek"/>
 				</header>
 
 				{loaded && (
