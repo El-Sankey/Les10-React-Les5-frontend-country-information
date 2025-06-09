@@ -1,45 +1,31 @@
-.btn-disabled {
-    background-color: #007bff;
-    color: white;
-    padding: 12px 24px;
+button {
+    background-color: #9a3def;
     border: none;
-    border-radius: 6px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-
-    /*display: flex;*/
-    /*justify-content: center;*/
-    /*align-content: center;*/
-    /*!*border: 1px #488f67;*!*/
-    /*color: #ffffff;*/
-    /*height: 100px;*/
-    /*width: 2500px;*/
-}
-.btn-enabled {
-
-    align-items: center;
+    border-radius: 30px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
     color: white;
-    padding: 12px 24px;
-    background-color: #125f6e;
-    border: none;
-    border-radius: 10px;
-    font-size: 16px;
+    padding: 0.75rem 1.5rem;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    font-size: 23px;
+    font-weight: 300;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 200px;
+}
 
-    display: flex;
-    /*justify-content: center;*/
-    /*text-align: center;*/
-    /*!*border: 1px #491b8f;*!*/
-    /*height: 50px;*/
-    /*width: 100px;*/
-    /*border-radius: 10px;*/
-}
-.btn:focus {
-    color: #323364;
-}
-.btn:hover {
-    background-color: #0056b3;
+/* Hover-effect */
+button:hover {
+    background-color: #6060e0;
+    border-radius: 30px;
     box-shadow: 10px 6px 12px rgba(0, 0, 10, 0.5);
+    font-size: 25px;
+    font-weight: 900;
+    transform: scale(1.03);
+    width: 300px;
+}
+
+/* Disabled knop */
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    transform: none;
 }

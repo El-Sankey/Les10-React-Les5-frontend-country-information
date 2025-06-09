@@ -1,12 +1,12 @@
 import "./Button.css";
 
-function Button({isDisabled,button,action}) {
+function Button({ buttonType, name, isDisabled, action }) {
 	return (
-		<button className={isDisabled ? "btn-disabled": "btn-enabled"}
-				type={button}
+		<button type={buttonType}
 				disabled={isDisabled}
-				onClick={action}>Laad Landen
+				onClick={action}> {name}
 		</button>
 	);
 }
-export default Button
+
+export default Button;

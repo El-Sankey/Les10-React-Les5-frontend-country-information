@@ -1,97 +1,72 @@
 import './App.css';
-import {useState} from "react";
-import "./components/Country-cards.jsx";
+import { useState } from "react";
 import axios from "axios";
 import Button from "./components/Button.jsx";
-// import countryCards from "./components/Country-cards.jsx";
-
 
 function App() {
+	const [countries, setCountries] = useState([]);
+	const [loaded, setLoaded] = useState(false);
+	const [error, setError] = useState(null);
 
-    const [countries, setCountries] = useState([]);
-    const [loaded, setLoaded] = useState(false);
-    // const [getCountries, setGetCountries] = useState('')
-    const [error, setError] = useState(null)
+	async function fetchData() {
 
+		try {
+			const response = await axios.get("https://restcountries.com/v3.1/all?fields=name,flags,region,population");
+			const data = response.data;
+			console.log(response.data)
 
-    async function fenchdata() {
-
-        try {
-            const response = await axios.get("https://restcountries.com/v3.1/all");
-            const data = response.data;
-            console.log(response.data);
-
-            if (Array.isArray(data)) {
-                const sorded = data.slice().sort((a, b) => {
-                    return a.population - b.population;
-                    setCountries(sorted);
-                    setLoaded(true);
-                   // setGetCountries('')
-                } else {
-                    error("Error, er gaat iets mis!!!");
-                }
-            } catch (error) {
-                setError("Error, iets klopt niet!!!")
-            console.log();
-            }
-    	}
-
-		return (
-			<>
-				<section>
-					<div>
-						<header>
-							<img src="src/assets/world_map.png" alt="wereld-kaart"/>
-							<h1 className="h1">world regions</h1>
-							<Button
-								buttonType={"button"}
-								name={"Get Api"}
-								isDisabled = {false}
-								action={fetchdata}
-							/>
-						</header>
-					</div>
-					<br/>
-					{apiRequest &&
-						<div className="continenten">
-							<ul>
-								<li>
-									<img
-										name={apiRequest.name}
-										src={apiRequest.flags.png}
-										alt={apiRequest.flags.alt}
-									/>
-									<p>Has a population of {apiRequest.population} peolpe</p>
-								</li>
-							</ul>
-						</div>
-					}
-				</section>
-			</>
-		)
+			if (Array.isArray(data)) {
+				const sorted = data.slice().sort((a, b) => {
+					return a.population - b.population;
+				});
+				setCountries(sorted);
+				setLoaded(true);
+			} else {
+				setError("Er ging iets mis bij het laden van de data.");
+			}
+		} catch (err) {
+			setError("Netwerkfout: landen konden niet geladen worden.");
+			console.error(err);
+		}
 	}
 
-	export default App
+	return (
+		<>
+			<section>
+				<header>
+					<img src="src/assets/world_map.png" alt="wereldkaart" />
+					<h1 className="h1">World Regions</h1>
+					{!loaded && (
+						<Button
+							buttonType="button"
+							name="Get API"
+							isDisabled={false}
+							action={fetchData}
+						/>
+					)}
+					{error && <p style={{ color: "red" }}>{error}</p>}
+				</header>
 
+				{loaded && (
+					<div className="continenten">
+						<ul>
+							{countries.map((country, index) => (
+								<li key={index}>
+									<img
+										src={country.flags?.png}
+										alt={country.flags?.alt || country.name?.common}
+									/>
+									<p>
+										{country.name?.common} has a population of {country["population"].toLocaleString()} people
+									</p>
+								</li>
+							))}
+						</ul>
+					</div>
+				)}
+			</section>
+		</>
+	);
+}
 
-
-
-
-//     return (
-//         <>
-//             <div>
-//                 <img className="world-map" src="src/assets/world_map.png" alt="world-map"/>
-//                 <h1 className="h1">world regions</h1>
-//                 {!loaded && (
-//                     <Button />
-//                 )}
-//             </div>
-//             <div className="sorted-container">
-//                 {countries.map((Array))}
-//             </div>
-//
-//         </>
-//     )
-// }
-//
-// export default App
+export default App;
